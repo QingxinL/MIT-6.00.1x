@@ -1,5 +1,5 @@
 
-from ProblemSet4 import ps4a
+#from ProblemSet4 import ps4a
 
 from ps4a import *
 import time
@@ -130,7 +130,7 @@ def playGame(wordList):
 
     wordList: list (string)
     """
-    # TODO... <-- Remove this comment when you code this function
+
 
     ans = input('Enter n to deal a new hand, r to replay the last hand, or e to end game: ')
     count = 0
@@ -141,32 +141,35 @@ def playGame(wordList):
             else:
                 # ask user input u or c or invalid
                 user = input('Enter u to have yourself play, c to have the computer play: ')
-                assert user == 'u' or user == 'c', print('Invalid command.')
                 newHand = lastHand
+                while (user != 'u' and user != 'c'):
+                    print('Invalid command.')
+                    user = input('Enter u to have yourself play, c to have the computer play: ')
                 if user == 'u':
                     playHand(newHand, wordList, HAND_SIZE)
-                    lastHand = newHand
-                    count += 1
                 elif user == 'c':
                     compPlayHand(newHand, wordList, HAND_SIZE)
-                    count += 1
-                    lastHand = newHand
+                count += 1
+                lastHand = newHand
 
         elif ans == 'n':  # New Random Hand
             user = input('Enter u to have yourself play, c to have the computer play: ')
-            assert user == 'u' or user == 'c', print('Invalid command.')
             newHand = dealHand(HAND_SIZE)
+            while(user!='u' and user!='c'):
+                print('Invalid command.')
+                user = input('Enter u to have yourself play, c to have the computer play: ')
             if user == 'u':
                 playHand(newHand, wordList, HAND_SIZE)
-                lastHand = newHand
-                count += 1
             elif user == 'c':
                 compPlayHand(newHand, wordList, HAND_SIZE)
-                lastHand = newHand
-                count += 1
+            lastHand = newHand
+            count += 1
         else:
             print('Invalid command.')
         ans = input('Enter n to deal a new hand, r to replay the last hand, or e to end game: ')
+
+
+#def uorc(newHand,wordList,HAND_SIZE):
 
 
 #
