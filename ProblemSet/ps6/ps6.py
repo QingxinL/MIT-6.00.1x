@@ -237,36 +237,73 @@ class CiphertextMessage(Message):
         Returns: a tuple of the best shift value used to decrypt the message
         and the decrypted message text using that shift value
         '''
-        count_of_real_word = 0
-        max_of_real_word = 0
-        final_list = []
+
+        # try every possible shift value by for loop
+        # store the real word number for each shift value
+        # compare the real word numbers and find the maximum - 26-shift would be the best value
+        # return the tuple: (best shift value + decrypted message)
+        max_real_word_number = 0
         best_shift=0
-        true_message = ""
-
         for shift in range(26):
-            before_shift = Message.apply_shift(self,26-shift)
-            # if is_word(self.valid_words,before_shift)==True:
-            #     count_of_real_word+=1
-            before_shift = before_shift.split()
-            for before in before_shift:
-                if is_word(self.valid_words, before) == True:
-                    count_of_real_word+=1  # need to find the number of real words with this shift
-                    true_message+=before
-                    true_message += " "
-            if count_of_real_word>max_of_real_word:
-                max_of_real_word=count_of_real_word
+            before_shift = Message.apply_shift(self, 26 - shift)
+            before_shift_list = before_shift.split()
+            count_of_real_word = 0
+            for before in before_shift_list:
+                if is_word(self.valid_words,before)==True:
+                    count_of_real_word+=1
+
+            if count_of_real_word>max_real_word_number:
+                max_real_word_number=count_of_real_word
                 best_shift = 26-shift
+        decrypted = Message.apply_shift(self,best_shift)
+        if best_shift==26:
+            best_shift=0
+        result = []
+        result.append(best_shift)
+        result.append(decrypted)
+        return tuple(result)
 
 
-        final_list.append(best_shift)
-        final_list.append(true_message)
-        return tuple(final_list)
 
 
 
 
 
 
+        # count_of_real_word = 0
+        # max_of_real_word = 0
+        # final_list = []
+        # best_shift=0
+        # true_message = ""
+        #
+        # for shift in range(26):
+        #     before_shift = Message.apply_shift(self,26-shift)
+        #     # if is_word(self.valid_words,before_shift)==True:
+        #     #     count_of_real_word+=1
+        #     before_shift = before_shift.split()
+        #     for before in before_shift:
+        #         if is_word(self.valid_words, before) == True:
+        #             count_of_real_word+=1  # need to find the number of real words with this shift
+        #             true_message+=before
+        #             true_message += " "
+        #     if count_of_real_word>max_of_real_word:
+        #         max_of_real_word=count_of_real_word
+        #         best_shift = 26-shift
+        #
+        #
+        # final_list.append(best_shift)
+        # final_list.append(true_message)
+        # return tuple(final_list)
+
+
+
+
+
+def decrypt_story():
+    encrypted = get_story_string()
+    encrypted_obj = CiphertextMessage(encrypted)
+    result = encrypted_obj.decrypt_message()
+    return result
 
 
 
